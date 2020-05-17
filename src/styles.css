@@ -9,6 +9,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  border: 1px dashed black;
   padding: .5em;
 }
