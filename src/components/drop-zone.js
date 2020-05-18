@@ -1,12 +1,15 @@
 // drop-zone docs: https://www.npmjs.com/package/react-dropzone
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css';
 import '../styles.css'
 
 // have accepted file types
 
 function ImageDropZone() {
   const [imgSrc, setImgSrc] = useState(null);
+  const [crop, setCrop ] = useState({aspect: 1/2});
 
   const onDrop = useCallback((acceptedFiles) => {
     console.log(acceptedFiles);
@@ -34,14 +37,15 @@ function ImageDropZone() {
 
   return (
     <div className="container-dropzone">
-      <div className='preview-image'>
-        {imgSrc !== null ? <img src={imgSrc} alt='file upload preview' /> :
+        {imgSrc !== null ?
+          <div className='preview-image'>
+            <ReactCrop src={imgSrc} crop={crop} onChange={newCrop => setCrop(newCrop)}/>
+          </div> :
           <div className="drop-zone" {...getRootProps()}>
             <input {...getInputProps()} />
             <p>Drag Files Here!</p>
           </div>
         }
-      </div>
     </div>
   )
 }
