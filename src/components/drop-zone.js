@@ -33,10 +33,15 @@ function ImageDropZone() {
   const {getRootProps, getInputProps} = useDropzone({onDrop});
 
   return (
-    <div className="drop-zone" {...getRootProps()}>
-      <input {...getInputProps()} />
-      <p>Drag Files Here!</p>
-      {imgSrc !== null ? <img src={imgSrc} alt='file upload preview' /> : ''}
+    <div className="container-dropzone">
+      <div className='preview-image'>
+        {imgSrc !== null ? <img src={imgSrc} alt='file upload preview' /> :
+          <div className="drop-zone" {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Drag Files Here!</p>
+          </div>
+        }
+      </div>
     </div>
   )
 }

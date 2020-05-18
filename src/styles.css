@@ -12,3 +12,8 @@
   border: 1px dashed black;
   padding: .5em;
 }
+
+.preview-image {
+  height: 50%;
+  width: 50%;
+}
