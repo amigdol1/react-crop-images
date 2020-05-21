@@ -12,12 +12,11 @@ function ImageDropZone() {
   const [crop, setCrop ] = useState({aspect: 1/2});
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       const reader = new FileReader()
 
       reader.onabort = () => console.log('file reading was aborted')
-      reader.onerror = () => console.log('file reading has failed')
+      reader.onerror = () => alert('There was an error loading your image. Please refresh the browser and try again.')
       reader.onload = () => {
         // update state of image so it displays
         setImgSrc(reader.result)
@@ -26,6 +25,18 @@ function ImageDropZone() {
     })
 
   }, [])
+
+  const handleImageLoaded = (image) => {
+    console.log(image)
+  }
+
+  const handleOnCropChange = (newCrop) => {
+     setCrop(newCrop);
+  }
+
+  const handleOnCropComplete = (crop, pixelCrop) => {
+    console.log(crop, pixelCrop);
+  }
 
   const handleSubmit = (file) => {
     // check if the user cropped
@@ -39,7 +50,10 @@ function ImageDropZone() {
     <div className="container-dropzone">
         {imgSrc !== null ?
           <div className='preview-image'>
-            <ReactCrop src={imgSrc} crop={crop} onChange={newCrop => setCrop(newCrop)}/>
+            <ReactCrop
+              src={imgSrc}
+              crop={crop}
+              onChange={handleOnCropChange}/>
           </div> :
           <div className="drop-zone" {...getRootProps()}>
             <input {...getInputProps()} />
