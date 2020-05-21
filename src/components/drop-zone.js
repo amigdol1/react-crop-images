@@ -4,12 +4,14 @@ import {useDropzone} from 'react-dropzone'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css';
 import '../styles.css'
+import {image64toCanvasRef} from '../ReusableUtils'
 
 // have accepted file types
 
 function ImageDropZone() {
   const [imgSrc, setImgSrc] = useState(null);
   const [crop, setCrop ] = useState({aspect: 1/2});
+  const imagePreviewCanvasRef = React.createRef();
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -36,6 +38,10 @@ function ImageDropZone() {
 
   const handleOnCropComplete = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
+    // this might need to go outside of this function. Tutorial had it in the constructor
+    const canvasRef = imagePreviewCanvasRef.current
+    const imgSrc = this.state;
+    image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
   }
 
   const handleSubmit = (file) => {
@@ -53,7 +59,11 @@ function ImageDropZone() {
             <ReactCrop
               src={imgSrc}
               crop={crop}
-              onChange={handleOnCropChange}/>
+              onChange={handleOnCropChange}
+            />
+            <br></br>
+            <p>Preview Crop</p>
+            <canvas ref={imagePreviewCanvasRef}></canvas>
           </div> :
           <div className="drop-zone" {...getRootProps()}>
             <input {...getInputProps()} />
